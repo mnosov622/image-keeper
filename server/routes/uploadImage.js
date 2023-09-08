@@ -2,18 +2,16 @@ const { pool } = require("../connection");
 const router = require("express").Router();
 const multer = require("multer");
 
-// Multer storage configuration
-const storage = multer.memoryStorage(); // Store the uploaded image in memory
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post("/api/images", upload.single("image"), async (req, res) => {
   try {
-    const { label } = req.body;
-    const imageBuffer = req.file.buffer; // Get the image buffer from multer
+    const { label, date } = req.body;
+    const imageBuffer = req.file.buffer;
     console.log("image ", imageBuffer);
-    // Insert the data into the database
-    const query = "INSERT INTO images.images (image, label) VALUES ($1, $2) RETURNING *";
-    const values = [imageBuffer, label]; // Use image buffer instead of image URL
+    const query = "INSERT INTO images.images (image, label, date) VALUES ($1, $2, $3) RETURNING *";
+    const values = [imageBuffer, label, date];
 
     const client = await pool.connect();
     const result = await client.query(query, values);
