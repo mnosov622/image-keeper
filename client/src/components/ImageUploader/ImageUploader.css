@@ -1,0 +1,16 @@
+.dropzone {
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  backdrop-filter: blur(10px);
+}
+
+.dropzone.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
