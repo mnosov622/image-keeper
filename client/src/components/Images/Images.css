@@ -23,7 +23,7 @@
 .images-list {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 100px;
 }
 
 .image:hover .action-button {
@@ -69,6 +69,11 @@
   cursor: pointer;
   transition: opacity 0.3s ease-in-out;
   opacity: 0;
+  transition: filter 0.3s ease-in-out;
+}
+
+.action-button:hover {
+  filter: brightness(0.7);
 }
 
 .action-button:nth-child(2) {

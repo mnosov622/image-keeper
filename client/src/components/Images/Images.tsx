@@ -4,6 +4,7 @@ import downloadIcon from "../../assets/tabler_download.svg";
 import EditIcon from "../../assets/tabler_edit.svg";
 import DeleteIcon from "../../assets/tabler_trash-x.svg";
 import { formatDate } from "../../utils/helpers";
+import EditLabel from "../EditLabel/EditLabel";
 
 interface ImageData {
   id: string;
@@ -17,8 +18,10 @@ interface ItemsToDisplayProps {
 
 function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
   const [images, setImages] = useState<any>([]);
-  const [imageDate, setImageDate] = useState<any>([]);
-  const [loadingImages, setLoadingImages] = useState(true);
+  const [imageDate, setImageDate] = useState<string>("");
+  const [loadingImages, setLoadingImages] = useState<boolean>(true);
+  const [displayEditArea, setDisplayEditArea] = useState<boolean>(false);
+  const [editImageData, setEditImageData] = useState<ImageData | null>(null);
 
   const fetchImages = async () => {
     try {
@@ -77,6 +80,15 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
     }
   };
 
+  const onSave = (label: string) => {
+    console.log(label);
+  };
+
+  const selectEditLabel = (displayEditArea: boolean, imageData: ImageData) => {
+    setDisplayEditArea(displayEditArea);
+    setEditImageData(imageData);
+  };
+
   return (
     <div>
       {/* {!loadingImages && !imageDate && <h2 className="images-date">{formatDate(imageDate)}</h2>} */}
@@ -98,7 +110,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                   onLoad={() => setLoadingImages(false)}
                 />
                 <section />
-                {imageData.label && <p className="label">{imageData.label}</p>}
+                {!loadingImages && imageData.label && <p className="label">{imageData.label}</p>}
 
                 <section className="actions">
                   <button className="action-button" onClick={() => handleDownloadImage(imageData)}>
@@ -108,7 +120,10 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                 </section>
 
                 <section className="actions">
-                  <button className="action-button">
+                  <button
+                    className="action-button"
+                    onClick={() => selectEditLabel(!displayEditArea, imageData)}
+                  >
                     <img src={EditIcon} alt="edit" />
                     <span>Edit</span>
                   </button>
@@ -124,6 +139,14 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
             )}
           </div>
         ))}
+        {displayEditArea && (
+          <EditLabel
+            initialLabel={editImageData?.label || ""}
+            image={editImageData || null}
+            onCancel={() => setDisplayEditArea(!displayEditArea)}
+            onSave={onSave}
+          />
+        )}
       </div>
     </div>
   );
