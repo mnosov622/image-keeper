@@ -3,7 +3,7 @@ import "./Images.css";
 import downloadIcon from "../../assets/tabler_download.svg";
 import EditIcon from "../../assets/tabler_edit.svg";
 import DeleteIcon from "../../assets/tabler_trash-x.svg";
-import { formatDate } from "../../utils/helpers";
+import { convertToImageUrl, formatDate } from "../../utils/helpers";
 import EditLabel from "../EditLabel/EditLabel";
 
 interface ImageData {
@@ -43,7 +43,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
 
   useEffect(() => {
     fetchImages();
-  }, [updateData]);
+  }, [updateData, displayEditArea]);
 
   const handleDownloadImage = (imageData: any) => {
     if (imageData && imageData.image && Array.isArray(imageData.image.data)) {
@@ -80,8 +80,25 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
     }
   };
 
-  const onSave = (label: string) => {
-    console.log(label);
+  const onSave = async (label: string, id: number) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/images/${id}/label`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ label }),
+      });
+
+      if (response.status === 200) {
+        console.log("Image label updated successfully");
+      } else {
+        console.error("Failed to update image label");
+      }
+    } catch (error) {
+      console.error("An error occurred while updating image label:", error);
+    }
+    setDisplayEditArea(!displayEditArea);
   };
 
   const selectEditLabel = (displayEditArea: boolean, imageData: ImageData) => {
@@ -142,7 +159,8 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
         {displayEditArea && (
           <EditLabel
             initialLabel={editImageData?.label || ""}
-            image={editImageData || null}
+            imageData={editImageData || null}
+            id={editImageData?.id || ""}
             onCancel={() => setDisplayEditArea(!displayEditArea)}
             onSave={onSave}
           />
@@ -150,13 +168,6 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       </div>
     </div>
   );
-}
-
-function convertToImageUrl(imageData: any) {
-  if (imageData && imageData.type === "Buffer" && Array.isArray(imageData.data)) {
-    const blob = new Blob([new Uint8Array(imageData.data)]);
-    return URL.createObjectURL(blob);
-  }
 }
 
 export default ImagesDisplay;

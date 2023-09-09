@@ -1,29 +1,24 @@
 import React, { useState } from "react";
 import "./EditLabel.css";
 import CloseIcon from "../../assets/tabler_x.svg";
+import { convertToImageUrl } from "../../utils/helpers";
 
 interface EditLabelProps {
   initialLabel: string;
-  onSave: (label: string) => void;
+  onSave: (label: string, id: number) => void;
   onCancel: () => void;
-  image: any;
+  imageData: any;
+  id: any;
 }
 
-const EditLabel: React.FC<EditLabelProps> = ({ initialLabel, onSave, onCancel, image }) => {
+const EditLabel: React.FC<EditLabelProps> = ({ initialLabel, onSave, onCancel, imageData, id }) => {
   const [label, setLabel] = useState(initialLabel);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const blob = image instanceof Blob ? image : new Blob([image]);
+  const blob = imageData instanceof Blob ? imageData : new Blob([imageData]);
   const imageToDisplay = URL.createObjectURL(blob);
 
-  function convertToImageUrl(imageData: any) {
-    if (imageData && imageData.type === "Buffer" && Array.isArray(imageData.data)) {
-      const blob = new Blob([new Uint8Array(imageData.data)]);
-      return URL.createObjectURL(blob);
-    }
-  }
-
   const handleSave = () => {
-    onSave(label);
+    onSave(label, id);
   };
 
   return (
@@ -34,10 +29,10 @@ const EditLabel: React.FC<EditLabelProps> = ({ initialLabel, onSave, onCancel, i
       </div>
       <div className="label-section">
         <div className="instructions">Edit Label</div>
-        <img src={convertToImageUrl(image.image)} alt="" width={150} height={150} />
+        <img src={convertToImageUrl(imageData.image)} alt="" width={150} height={150} />
         <input
           type="text"
-          placeholder=""
+          placeholder="Enter custom label"
           value={label}
           onChange={(e) => {
             const inputValue = e.target.value;

@@ -9,3 +9,10 @@ export const getImageCountMessage = (images: string) => {
   const message = count === 1 ? "image" : "images";
   return `${count} ${message} stored in keeper`;
 };
+
+export const convertToImageUrl = (imageData: any) => {
+  if (imageData && imageData.type === "Buffer" && Array.isArray(imageData.data)) {
+    const blob = new Blob([new Uint8Array(imageData.data)]);
+    return URL.createObjectURL(blob);
+  }
+};
