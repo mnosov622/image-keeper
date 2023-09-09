@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import UploadIcon from "../../assets/upload.svg";
 import CloseIcon from "../../assets/tabler_x.svg";
+import CheckIcon from "../../assets/tabler_check.svg";
 
 import "./ImageUploader.css";
 
@@ -27,8 +28,9 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
 
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[]) => {
+      setError("");
       const image = acceptedFiles[0];
-      if (image.type.startsWith("image/")) {
+      if (image.type.startsWith("image/") && !image.type.endsWith("svg+xml")) {
         const imageUrl = URL.createObjectURL(image);
         setImage(image);
         setImageSrc(imageUrl);
@@ -92,9 +94,13 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
             <h3>Upload file</h3>
 
             <p>Drop your image here to start uploading</p>
-            <div className="error">
-              <p>{error} some error</p>
-            </div>
+
+            {error && (
+              <div className="error-section">
+                <p className="error-red">Sorry, but</p>
+                <p className="error-normal">{error}</p>
+              </div>
+            )}
           </>
         </div>
       ) : (
@@ -104,7 +110,7 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
           <section className="label-section">
             <input
               type="text"
-              placeholder="Add a label"
+              placeholder="Enter custom label"
               value={label}
               onChange={(e) => {
                 const inputValue = e.target.value;
@@ -117,7 +123,10 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
             />
             <p className="char-count">{charCount}/100 chars max</p>
           </section>
-          <button onClick={() => upload()}>Save</button>
+          <button className="save-btn" onClick={() => upload()}>
+            <img src={CheckIcon} alt="check" width={24} height={24} />
+            Save
+          </button>
         </div>
       )}
     </div>

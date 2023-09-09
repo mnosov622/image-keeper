@@ -88,7 +88,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
             className={`image-container ${loadingImages ? "image-loading" : ""}`}
           >
             {imageData.image && (
-              <section className="images">
+              <section className="image">
                 <img
                   className="image-section"
                   src={convertToImageUrl(imageData.image)}
@@ -97,7 +97,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                   height={200}
                   onLoad={() => setLoadingImages(false)}
                 />
-
+                <section />
                 {imageData.label && <p className="label">{imageData.label}</p>}
 
                 <section className="actions">
