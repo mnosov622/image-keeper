@@ -107,12 +107,12 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                   </button>
                 </section>
 
-                {/* <section className="actions">
+                <section className="actions">
                   <button className="action-button">
                     <img src={EditIcon} alt="edit" />
-                    <span>Edit label</span>
+                    <span>Edit</span>
                   </button>
-                </section> */}
+                </section>
 
                 <section className="actions">
                   <button className="action-button" onClick={() => handleDeleteImage(imageData.id)}>
