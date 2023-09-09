@@ -40,6 +40,18 @@ const App = () => {
     fetchImages();
   }, [updateData]);
 
+  useEffect(() => {
+    if (displayUpload) {
+      document.body.classList.add("disable-scrolling");
+    } else {
+      document.body.classList.remove("disable-scrolling");
+    }
+
+    return () => {
+      document.body.classList.remove("disable-scrolling");
+    };
+  }, [displayUpload, hideUploadArea]);
+
   return (
     <>
       <Header images={images} displayUploadArea={displayUploadArea} />

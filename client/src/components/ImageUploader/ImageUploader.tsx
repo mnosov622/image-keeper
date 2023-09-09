@@ -1,6 +1,8 @@
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import UploadIcon from "../../assets/upload.svg";
+import CloseIcon from "../../assets/tabler_x.svg";
+
 import "./ImageUploader.css";
 
 interface ImageUploaderProps {
@@ -9,7 +11,11 @@ interface ImageUploaderProps {
 }
 
 function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [image, setImage] = useState<FileWithPath | null>(null);
   const [label, setLabel] = useState<string>("");
+  const [charCount, setCharCount] = useState<number>(0);
+  const [error, setError] = useState<string>("");
 
   const getCurrentDate = () => {
     return new Date().toLocaleDateString(undefined, {
@@ -22,7 +28,20 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
   const onDrop = useCallback(
     async (acceptedFiles: FileWithPath[]) => {
       const image = acceptedFiles[0];
+      if (image.type.startsWith("image/")) {
+        const imageUrl = URL.createObjectURL(image);
+        setImage(image);
+        setImageSrc(imageUrl);
+      } else {
+        console.error("File is not an image.");
+        setError("File is not an image.");
+      }
+    },
+    [label, hideUploadArea]
+  );
 
+  const upload = async () => {
+    if (image?.type.startsWith("image/")) {
       const blob = image instanceof Blob ? image : new Blob([image]);
 
       const formData = new FormData();
@@ -40,6 +59,10 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
         });
 
         if (response.ok) {
+          const imageUrl = URL.createObjectURL(image);
+          setImageSrc(imageUrl);
+          setLabel("");
+          setCharCount(0);
           hideUploadArea();
           fetchNewData();
         } else {
@@ -48,29 +71,55 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
       } catch (error) {
         console.error("An error occurred while uploading the image.", error);
       }
-    },
-    [label, hideUploadArea]
-  );
+    } else {
+      console.error("File is not an image.");
+    }
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
     <div>
-      <div {...getRootProps()} className={`dropzone ${isDragActive ? "active" : ""}`}>
-        <input {...getInputProps()} />
-        <>
-          <img src={UploadIcon} alt="Upload" width={80} height={65} />
-          <h3>Upload file</h3>
-          <input
-            type="text"
-            placeholder="Label"
-            value={label}
-            onChange={(e) => setLabel(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-          />
-          <p>Drop your file here to start uploading</p>
-        </>
-      </div>
+      <button className="close-editor-btn" onClick={() => hideUploadArea()}>
+        <img src={CloseIcon} alt="close" width={24} height={24} />
+        Close Editor
+      </button>
+      {!imageSrc ? (
+        <div {...getRootProps()} className={`dropzone ${isDragActive ? "active" : ""}`}>
+          <input {...getInputProps()} />
+          <>
+            <img src={UploadIcon} alt="Upload" width={80} height={65} />
+            <h3>Upload file</h3>
+
+            <p>Drop your image here to start uploading</p>
+            <div className="error">
+              <p>{error} some error</p>
+            </div>
+          </>
+        </div>
+      ) : (
+        <div className="image-preview">
+          <h2 className="instructions">Set Custom Label</h2>
+          <img src={imageSrc} alt="Uploaded" width={150} height={150} />
+          <section className="label-section">
+            <input
+              type="text"
+              placeholder="Add a label"
+              value={label}
+              onChange={(e) => {
+                const inputValue = e.target.value;
+                if (inputValue.length <= 100) {
+                  setLabel(inputValue);
+                  setCharCount(inputValue.length);
+                }
+              }}
+              onClick={(e) => e.stopPropagation()}
+            />
+            <p className="char-count">{charCount}/100 chars max</p>
+          </section>
+          <button onClick={() => upload()}>Save</button>
+        </div>
+      )}
     </div>
   );
 }
