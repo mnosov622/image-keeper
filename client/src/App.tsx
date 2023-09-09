@@ -23,7 +23,6 @@ const App = () => {
   };
 
   useEffect(() => {
-    console.log("fetching images");
     const fetchImages = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/images");

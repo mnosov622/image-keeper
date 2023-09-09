@@ -17,21 +17,21 @@ interface ItemsToDisplayProps {
 function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
   const [images, setImages] = useState<any>([]);
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/images");
-        if (!response.ok) {
-          throw new Error("Failed to fetch images");
-        }
-
-        const data = await response.json();
-        setImages(data);
-      } catch (error) {
-        console.error("Error fetching images:", error);
+  const fetchImages = async () => {
+    try {
+      const response = await fetch("http://localhost:4000/api/images");
+      if (!response.ok) {
+        throw new Error("Failed to fetch images");
       }
-    };
 
+      const data = await response.json();
+      setImages(data);
+    } catch (error) {
+      console.error("Error fetching images:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchImages();
   }, [updateData]);
 
@@ -47,6 +47,25 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       a.download = `image_${imageData.id}.png`;
       a.click();
       URL.revokeObjectURL(url);
+    }
+  };
+
+  const handleDeleteImage = async (id: string) => {
+    try {
+      const response = await fetch(`http://localhost:4000/api/images/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.status === 204) {
+        console.log("Image deleted successfully");
+        fetchImages();
+      } else if (response.status === 404) {
+        console.log("Image not found");
+      } else {
+        console.error("Error deleting image:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
     }
   };
 
@@ -80,14 +99,18 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                     <img src={EditIcon} alt="edit" />
                     <span>Edit label</span>
                   </button>
-                </section>
+                </section> */}
 
                 <section className="actions">
                   <button className="action-button">
-                    <img src={DeleteIcon} alt="delete" />
+                    <img
+                      src={DeleteIcon}
+                      alt="delete"
+                      onClick={() => handleDeleteImage(imageData.id)}
+                    />
                     <span>Delete</span>
                   </button>
-                </section> */}
+                </section>
               </section>
             )}
           </div>

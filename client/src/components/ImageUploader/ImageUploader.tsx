@@ -66,6 +66,7 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
             placeholder="Label"
             value={label}
             onChange={(e) => setLabel(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
           />
           <p>Drop your file here to start uploading</p>
         </>
