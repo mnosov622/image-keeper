@@ -23,7 +23,7 @@
 .images-list {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 10px;
+  margin-top: 50px;
 }
 
 .image:hover .action-button {
@@ -42,6 +42,10 @@
   flex-direction: column;
   justify-content: space-between;
   z-index: 55;
+}
+
+.actions:nth-child(5) {
+  top: 80%;
 }
 
 .actions:nth-child(6) {

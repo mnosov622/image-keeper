@@ -79,7 +79,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
 
   return (
     <div>
-      {!loadingImages && <h2 className="images-date">{formatDate(imageDate)}</h2>}
+      {/* {!loadingImages && !imageDate && <h2 className="images-date">{formatDate(imageDate)}</h2>} */}
 
       <div className="images-list">
         {images.map((imageData: ImageData, index: number) => (
