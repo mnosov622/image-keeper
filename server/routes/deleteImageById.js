@@ -1,20 +1,19 @@
 const express = require("express");
 const router = express.Router();
-const { pool } = require("../connection"); // Import your PostgreSQL database connection
+const { pool } = require("../connection");
 
 router.delete("/api/images/:id", async (req, res) => {
   const imageId = req.params.id;
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM images.images WHERE id = $1", [imageId]); // Pass imageId as an array
-    console.log("image", result);
+    const result = await client.query("SELECT * FROM images.images WHERE id = $1", [imageId]);
 
     if (!result || result.rows.length === 0) {
       res.status(404).json({ error: "Image not found" });
       return;
     }
 
-    await client.query("DELETE FROM images.images WHERE id = $1", [imageId]); // Pass imageId as an array
+    await client.query("DELETE FROM images.images WHERE id = $1", [imageId]);
 
     client.release();
 

@@ -17,7 +17,7 @@
 .images-list {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 50px;
+  margin-top: 10px;
 }
 
 .actions {
@@ -38,12 +38,13 @@
 } 
 */
 .actions:nth-child(4) {
-  top: 65%;
+  top: 75%;
 }
 
 .actions:nth-child(3) {
-  top: 50%;
+  top: 65%;
 }
+
 .action-button {
   display: flex;
   align-items: center;
@@ -52,18 +53,23 @@
   position: absolute;
   cursor: pointer;
   transition: opacity 0.3s ease-in-out;
+  opacity: 0.5;
 }
 
 .action-button:nth-child(2) {
   position: absolute;
 }
 
-.action-button:hover {
-  opacity: 0.8;
+.image-section:hover ~ .actions .action-button {
+  opacity: 1;
 }
 
 .action-button:hover .image-section {
   opacity: 0.5;
+}
+
+.action-button:hover {
+  opacity: 1;
 }
 
 .action-button span {
@@ -74,9 +80,39 @@
 .image-section {
   border-radius: 20px;
   transition: filter 0.3s ease-in-out;
-  margin-right: 50px;
 }
 
 .image-section:hover {
   filter: brightness(0.5);
+}
+
+.images-date {
+  font-size: 31px;
+  font-weight: 700;
+  color: #6b6767;
+  margin-top: 30px;
+}
+
+.image-container {
+  position: relative;
+  background-color: #f7f7f7;
+  width: 200px;
+  height: 200px;
+  border-radius: 20px;
+  margin-right: 50px;
+}
+
+.image-loading {
+  background-color: #f7f7f7;
+  animation: fadeInOut 0.5s ease-in-out infinite alternate;
+  z-index: 999;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
