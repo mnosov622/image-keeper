@@ -4,7 +4,7 @@
 
 # Image Keeper
 
-Image Keeper is a full-stack web app built with React, TypeScript, Node.js, and databases like MongoDB and PostgreSQL. It simplifies image management, allowing users to upload, label, and download images. With an intuitive interface and robust features, it's perfect for photographers, designers, and anyone with an image collection.
+Image Keeper is a full-stack web app built with React, TypeScript, Node.js, and PostgreSQL database. It simplifies image management, allowing users to upload, label, and download images. With an intuitive interface and robust features, it's perfect for photographers, designers, and anyone with an image collection.
 
 ## Key Features
 
