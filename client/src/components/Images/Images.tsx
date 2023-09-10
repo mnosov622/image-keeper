@@ -9,7 +9,8 @@ import EditLabel from "../EditLabel/EditLabel";
 interface ImageData {
   id: string;
   label: string;
-  image: any;
+  image: ImageData;
+  date: string;
 }
 
 interface ItemsToDisplayProps {
@@ -105,53 +106,75 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
     setEditImageData(imageData);
   };
 
+  // Group images by date
+  const groupedImages: { [key: string]: ImageData[] } = {};
+  images.forEach((imageData: ImageData) => {
+    const date = formatDate(imageData.date);
+    if (!groupedImages[date]) {
+      groupedImages[date] = [];
+    }
+    groupedImages[date].push(imageData);
+  });
+
   return (
     <div>
-      {!loadingImages && imageDate && <h2 className="images-date">{formatDate(imageDate)}</h2>}
       <div className="images-list">
-        {images.map((imageData: ImageData, index: number) => (
-          <div
-            key={imageData.id}
-            className={`image-container ${loadingImages ? "image-loading" : ""}`}
-          >
-            {imageData.image && (
-              <section className="image">
-                <img
-                  className="image-section"
-                  src={convertToImageUrl(imageData.image)}
-                  alt={imageData.label}
-                  width={200}
-                  height={200}
-                  onLoad={() => setLoadingImages(false)}
-                />
-                <section />
-                {!loadingImages && imageData.label && <p className="label">{imageData.label}</p>}
-
-                <section className="actions">
-                  <button className="action-button" onClick={() => handleDownloadImage(imageData)}>
-                    <img src={downloadIcon} alt="download" />
-                    <span>Download</span>
-                  </button>
-                </section>
-
-                <section className="actions">
-                  <button
-                    className="action-button"
-                    onClick={() => selectEditLabel(!displayEditArea, imageData)}
-                  >
-                    <img src={EditIcon} alt="edit" />
-                    <span>Edit</span>
-                  </button>
-                </section>
-
-                <section className="actions">
-                  <button className="action-button" onClick={() => handleDeleteImage(imageData.id)}>
-                    <img src={DeleteIcon} alt="delete" />
-                    <span>Delete</span>
-                  </button>
-                </section>
-              </section>
-            )}
+        {Object.keys(groupedImages).map((date) => (
+          <div key={date}>
+            <h2 className="images-date">
+              {date} <span className="images-by-date-count">{groupedImages[date].length}</span>
+            </h2>
+            <div className="image-rows">
+              {groupedImages[date].map((imageData: ImageData) => (
+                <div
+                  key={imageData.id}
+                  className={`image-container ${loadingImages ? "image-loading" : ""}`}
+                >
+                  {imageData.image && (
+                    <section className="image">
+                      <img
+                        className="image-section"
+                        src={convertToImageUrl(imageData.image)}
+                        alt={imageData.label}
+                        width={200}
+                        height={200}
+                        onLoad={() => setLoadingImages(false)}
+                      />
+                      {!loadingImages && imageData.label && (
+                        <p className="label">{imageData.label}</p>
+                      )}
+                      <section className="actions">
+                        <button
+                          className="action-button"
+                          onClick={() => handleDownloadImage(imageData)}
+                        >
+                          <img src={downloadIcon} alt="download" />
+                          <span>Download</span>
+                        </button>
+                      </section>
+                      <section className="second-actions">
+                        <button
+                          className="action-button"
+                          onClick={() => selectEditLabel(true, imageData)}
+                        >
+                          <img src={EditIcon} alt="edit" />
+                          <span>Edit</span>
+                        </button>
+                      </section>
+                      <section className="third-actions">
+                        <button
+                          className="action-button"
+                          onClick={() => handleDeleteImage(imageData.id)}
+                        >
+                          <img src={DeleteIcon} alt="delete" />
+                          <span>Delete</span>
+                        </button>
+                      </section>
+                    </section>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
         {displayEditArea && (
