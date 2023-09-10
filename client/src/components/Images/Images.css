@@ -45,19 +45,23 @@
 }
 
 .actions:nth-child(5) {
-  top: 80%;
+  top: 85%;
 }
 
 .actions:nth-child(6) {
-  top: 50%;
+  top: 70%;
 }
 
 .actions:nth-child(4) {
-  top: 65%;
+  top: 55%;
 }
 
 .actions:nth-child(3) {
   top: 80%;
+}
+
+.actions:nth-child(2) {
+  top: 10%;
 }
 
 .action-button {

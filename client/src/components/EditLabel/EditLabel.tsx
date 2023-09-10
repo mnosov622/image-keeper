@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import "./EditLabel.css";
 import CloseIcon from "../../assets/tabler_x.svg";
 import { convertToImageUrl } from "../../utils/helpers";
@@ -13,12 +13,16 @@ interface EditLabelProps {
 
 const EditLabel: React.FC<EditLabelProps> = ({ initialLabel, onSave, onCancel, imageData, id }) => {
   const [label, setLabel] = useState(initialLabel);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const blob = imageData instanceof Blob ? imageData : new Blob([imageData]);
-  const imageToDisplay = URL.createObjectURL(blob);
 
   const handleSave = () => {
     onSave(label, id);
+  };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (inputValue.length <= 100) {
+      setLabel(inputValue);
+    }
   };
 
   return (
@@ -30,17 +34,7 @@ const EditLabel: React.FC<EditLabelProps> = ({ initialLabel, onSave, onCancel, i
       <div className="label-section">
         <div className="instructions">Edit Label</div>
         <img src={convertToImageUrl(imageData.image)} alt="" width={150} height={150} />
-        <input
-          type="text"
-          placeholder="Enter custom label"
-          value={label}
-          onChange={(e) => {
-            const inputValue = e.target.value;
-            if (inputValue.length <= 100) {
-              setLabel(inputValue);
-            }
-          }}
-        />
+        <input type="text" placeholder="Enter custom label" value={label} onChange={handleChange} />
         <p className="char-count">{label.length}/100</p>
         <button className="save-btn" onClick={handleSave}>
           Save

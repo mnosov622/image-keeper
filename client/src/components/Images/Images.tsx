@@ -31,7 +31,6 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       }
 
       const data = await response.json();
-      console.log(data[0].date);
       setImageDate(data[0].date);
       setImages(data);
     } catch (error) {
@@ -43,7 +42,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
 
   useEffect(() => {
     fetchImages();
-  }, [updateData, displayEditArea]);
+  }, [updateData]);
 
   const handleDownloadImage = (imageData: any) => {
     if (imageData && imageData.image && Array.isArray(imageData.image.data)) {
@@ -108,8 +107,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
 
   return (
     <div>
-      {/* {!loadingImages && !imageDate && <h2 className="images-date">{formatDate(imageDate)}</h2>} */}
-
+      {!loadingImages && imageDate && <h2 className="images-date">{formatDate(imageDate)}</h2>}
       <div className="images-list">
         {images.map((imageData: ImageData, index: number) => (
           <div
