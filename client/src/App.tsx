@@ -3,24 +3,29 @@ import ImageUploader from "./components/ImageUploader/ImageUploader";
 import { useState } from "react";
 import "./App.css";
 import Images from "./components/Images/Images";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
+import { ImageData } from "./interfaces/imageData";
 
 const App = () => {
   const [displayUpload, setDisplayUpload] = useState<boolean>(false);
-  const [updateData, setUpdateData] = useState<boolean>(false); // [1
-  const [images, setImages] = useState<any>([]);
+  const [updateData, setUpdateData] = useState<boolean>(false);
+  const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setIsLoading] = useState<boolean>(true);
 
   const displayUploadArea = () => {
     setDisplayUpload(true);
   };
 
-  const hideUploadArea = () => {
+  const hideUploadArea = useCallback(() => {
     setDisplayUpload(false);
-  };
+  }, []);
 
   const fetchNewData = () => {
     setUpdateData(!updateData);
+  };
+
+  const setLoadingImages = (isLoading: boolean) => {
+    setIsLoading(isLoading);
   };
 
   useEffect(() => {
@@ -73,7 +78,13 @@ const App = () => {
       )}
       {displayUpload && <div className="blurred-bg" />}
 
-      <Images updateData={updateData} />
+      <Images
+        setUpdateData={setUpdateData}
+        updateData={updateData}
+        images={images}
+        isLoading={loading}
+        setLoadingImages={setLoadingImages}
+      />
     </>
   );
 };

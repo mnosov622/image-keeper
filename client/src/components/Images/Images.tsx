@@ -9,32 +9,41 @@ import { ImageData } from "../../interfaces/imageData";
 
 interface ItemsToDisplayProps {
   updateData: boolean;
+  setUpdateData: (updateData: boolean) => void;
+  images: ImageData[];
+  isLoading: boolean;
+  setLoadingImages: (isLoading: boolean) => void;
 }
 
-function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
-  const [images, setImages] = useState<ImageData[]>([]);
-  const [loadingImages, setLoadingImages] = useState<boolean>(true);
+function ImagesDisplay({
+  setUpdateData,
+  images,
+  isLoading,
+  updateData,
+  setLoadingImages,
+}: ItemsToDisplayProps) {
+  // const [images, setImages] = useState<ImageData[]>([]);
   const [displayEditArea, setDisplayEditArea] = useState<boolean>(false);
   const [editImageData, setEditImageData] = useState<ImageData | null>(null);
 
-  const fetchImages = async () => {
-    try {
-      const response = await fetch("http://localhost:4000/api/images");
-      if (!response.ok) {
-        throw new Error("Failed to fetch images");
-      }
+  // const fetchImages = async () => {
+  //   try {
+  //     const response = await fetch("http://localhost:4000/api/images");
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch images");
+  //     }
 
-      const data = await response.json();
-      setImages(data);
-    } catch (error) {
-      console.error("Error fetching images:", error);
-    } finally {
-      setLoadingImages(false);
-    }
-  };
+  //     const data = await response.json();
+  //     setImages(data);
+  //   } catch (error) {
+  //     console.error("Error fetching images:", error);
+  //   } finally {
+  //     setLoadingImages(false);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchImages();
+    setUpdateData(true);
   }, [updateData]);
 
   useEffect(() => {
@@ -68,7 +77,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       });
 
       if (response.status === 204) {
-        fetchImages();
+        setUpdateData(!updateData);
       } else if (response.status === 404) {
         console.log("Image not found");
       } else {
@@ -90,7 +99,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       });
 
       if (response.status === 200) {
-        fetchImages();
+        setUpdateData(!updateData);
       } else {
         console.error("Failed to update image label");
       }
@@ -119,6 +128,12 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
   // Sort the keys (timestamps) in descending order
   const sortedTimestamps = Object.keys(groupedImages).sort((a, b) => +b - +a);
 
+  if (isLoading)
+    return (
+      <div className="loading-images-animation">
+        <div className="spinner"></div>
+      </div>
+    );
   return (
     <div>
       <div className="images-list">
@@ -132,7 +147,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
               {groupedImages[timestamp].map((imageData: ImageData) => (
                 <div
                   key={imageData.id}
-                  className={`image-container ${loadingImages ? "image-loading" : ""}`}
+                  className={`image-container ${isLoading ? "image-loading" : ""}`}
                 >
                   {imageData.image && (
                     <section className="image">
@@ -144,9 +159,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
                         height={200}
                         onLoad={() => setLoadingImages(false)}
                       />
-                      {!loadingImages && imageData.label && (
-                        <p className="label">{imageData.label}</p>
-                      )}
+                      {!isLoading && imageData.label && <p className="label">{imageData.label}</p>}
                       <section className="actions">
                         <button
                           className="action-button"
