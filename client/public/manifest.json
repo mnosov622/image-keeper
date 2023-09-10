@@ -1,0 +1,13 @@
+{
+  "short_name": "ImageKeeper",
+  "name": "Image Keeper",
+  "description": "Your image management solution",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007bff",
+  "manifest_version": 2,
+  "splash_pages": null,
+  "related_applications": [],
+  "prefer_related_applications": false
+}
