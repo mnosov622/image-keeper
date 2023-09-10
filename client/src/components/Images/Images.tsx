@@ -5,21 +5,14 @@ import EditIcon from "../../assets/tabler_edit.svg";
 import DeleteIcon from "../../assets/tabler_trash-x.svg";
 import { convertToImageUrl, formatDate } from "../../utils/helpers";
 import EditLabel from "../EditLabel/EditLabel";
-
-interface ImageData {
-  id: string;
-  label: string;
-  image: ImageData;
-  date: string;
-}
+import { ImageData } from "../../interfaces/imageData";
 
 interface ItemsToDisplayProps {
   updateData: boolean;
 }
 
 function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
-  const [images, setImages] = useState<any>([]);
-  const [imageDate, setImageDate] = useState<string>("");
+  const [images, setImages] = useState<ImageData[]>([]);
   const [loadingImages, setLoadingImages] = useState<boolean>(true);
   const [displayEditArea, setDisplayEditArea] = useState<boolean>(false);
   const [editImageData, setEditImageData] = useState<ImageData | null>(null);
@@ -32,7 +25,6 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       }
 
       const data = await response.json();
-      setImageDate(data[0].date);
       setImages(data);
     } catch (error) {
       console.error("Error fetching images:", error);

@@ -43,6 +43,10 @@
   margin-bottom: 30px;
 }
 
+.instructions-text {
+  margin-top: 15px;
+}
+
 .label-section {
   display: flex;
   flex-direction: column;

@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone, FileWithPath } from "react-dropzone";
 import UploadIcon from "../../assets/upload.svg";
 import CloseIcon from "../../assets/tabler_x.svg";
 import CheckIcon from "../../assets/tabler_check.svg";
-
 import "./ImageUploader.css";
 
 interface ImageUploaderProps {
@@ -26,21 +25,17 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
     });
   };
 
-  const onDrop = useCallback(
-    async (acceptedFiles: FileWithPath[]) => {
-      setError("");
-      const image = acceptedFiles[0];
-      if (image.type.startsWith("image/") && !image.type.endsWith("svg+xml")) {
-        const imageUrl = URL.createObjectURL(image);
-        setImage(image);
-        setImageSrc(imageUrl);
-      } else {
-        console.error("File is not an image.");
-        setError("File is not an image.");
-      }
-    },
-    [label, hideUploadArea]
-  );
+  const onDrop = useCallback(async (acceptedFiles: FileWithPath[]) => {
+    setError("");
+    const image = acceptedFiles[0];
+    if (image.type.startsWith("image/") && !image.type.endsWith("svg+xml")) {
+      const imageUrl = URL.createObjectURL(image);
+      setImage(image);
+      setImageSrc(imageUrl);
+    } else {
+      setError("File is not an image.");
+    }
+  }, []);
 
   const upload = async () => {
     if (image?.type.startsWith("image/")) {
@@ -93,7 +88,7 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
             <img src={UploadIcon} alt="Upload" width={80} height={65} />
             <h3>Upload file</h3>
 
-            <p>Drop your image here to start uploading</p>
+            <p className="instructions-text">Drop your file here to start uploading</p>
 
             {error && (
               <div className="error-section">
