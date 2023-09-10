@@ -45,6 +45,14 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
     fetchImages();
   }, [updateData]);
 
+  useEffect(() => {
+    if (displayEditArea) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [displayEditArea]);
+
   const handleDownloadImage = (imageData: any) => {
     if (imageData && imageData.image && Array.isArray(imageData.image.data)) {
       const blob = new Blob([new Uint8Array(imageData.image.data)], {
@@ -91,7 +99,7 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       });
 
       if (response.status === 200) {
-        console.log("Image label updated successfully");
+        fetchImages();
       } else {
         console.error("Failed to update image label");
       }

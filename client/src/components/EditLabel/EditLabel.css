@@ -1,7 +1,7 @@
 .edit-label {
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -10,6 +10,7 @@
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  overflow: hidden;
 }
 
 .edit-label .label-section {

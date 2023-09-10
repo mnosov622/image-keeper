@@ -23,6 +23,14 @@ const App = () => {
   };
 
   useEffect(() => {
+    if (displayUpload) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [displayUpload]);
+
+  useEffect(() => {
     const fetchImages = async () => {
       try {
         const response = await fetch("http://localhost:4000/api/images");
