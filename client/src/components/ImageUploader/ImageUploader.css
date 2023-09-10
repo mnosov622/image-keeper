@@ -28,17 +28,6 @@
   top: 25%;
 }
 
-.image-preview input[type="text"] {
-  border: none;
-  outline: none;
-  padding: 5px;
-  font-size: 16px;
-  background: transparent;
-  width: 80%;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .image-preview input[type="text"]::placeholder {
   text-align: center;
 }

@@ -76,7 +76,6 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
       });
 
       if (response.status === 204) {
-        console.log("Image deleted successfully");
         fetchImages();
       } else if (response.status === 404) {
         console.log("Image not found");

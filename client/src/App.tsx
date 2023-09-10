@@ -9,6 +9,7 @@ const App = () => {
   const [displayUpload, setDisplayUpload] = useState<boolean>(false);
   const [updateData, setUpdateData] = useState<boolean>(false); // [1
   const [images, setImages] = useState<any>([]);
+  const [loading, setIsLoading] = useState<boolean>(true);
 
   const displayUploadArea = () => {
     setDisplayUpload(true);
@@ -42,6 +43,8 @@ const App = () => {
         setImages(data);
       } catch (error) {
         console.error("Error fetching images:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -62,7 +65,7 @@ const App = () => {
 
   return (
     <>
-      <Header images={images} displayUploadArea={displayUploadArea} />
+      <Header images={images} displayUploadArea={displayUploadArea} isLoading={loading} />
       {displayUpload && (
         <section className="upload-area">
           <ImageUploader fetchNewData={fetchNewData} hideUploadArea={hideUploadArea} />

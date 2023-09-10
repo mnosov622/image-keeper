@@ -7,7 +7,7 @@ export const formatDate = (inputDate: string) => {
 export const getImageCountMessage = (images: string) => {
   const count = images.length;
   const message = count === 1 ? "image" : "images";
-  return `${count} ${message} stored in keeper`;
+  return `${count} ${message}`;
 };
 
 export const convertToImageUrl = (imageData: any) => {

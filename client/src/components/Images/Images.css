@@ -1,6 +1,10 @@
 .image-container {
-  position: relative;
   margin-bottom: 50px;
+  position: relative;
+  background-color: #f7f7f7;
+  width: 225px;
+  height: 200px;
+  margin-right: 20px;
 }
 
 .label {
@@ -78,8 +82,8 @@
 }
 
 .image-section {
-  border-radius: 20px;
   transition: filter 0.3s ease-in-out;
+  width: 225px;
 }
 
 .images-date {
@@ -87,15 +91,6 @@
   font-weight: 700;
   color: #6b6767;
   margin-bottom: 20px;
-}
-
-.image-container {
-  position: relative;
-  background-color: #f7f7f7;
-  width: 200px;
-  height: 200px;
-  border-radius: 20px;
-  margin-right: 50px;
 }
 
 .image-loading {
@@ -107,6 +102,9 @@
 @keyframes fadeInOut {
   0% {
     opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
   }
   100% {
     opacity: 1;
@@ -121,6 +119,6 @@
 .images-by-date-count {
   background: #a9e5bb;
   border-radius: 10px;
-  padding: 5px 10px 5px 10px;
+  padding: 0 10px;
   color: #fff;
 }
