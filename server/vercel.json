@@ -1,0 +1,16 @@
+{
+  "name": "Image keeper",
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "index.js"
+    }
+  ],
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ]
+}

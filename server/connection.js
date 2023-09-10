@@ -10,5 +10,3 @@ const pool = new Pool({
 });
 
 module.exports = { pool };
-
-// Create a new Express application

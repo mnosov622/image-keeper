@@ -6,6 +6,7 @@ import DeleteIcon from "../../assets/tabler_trash-x.svg";
 import { convertToImageUrl, formatDate } from "../../utils/helpers";
 import EditLabel from "../EditLabel/EditLabel";
 import { ImageData } from "../../interfaces/imageData";
+import ImageUploader from "../ImageUploader/ImageUploader";
 
 interface ItemsToDisplayProps {
   updateData: boolean;
@@ -22,25 +23,8 @@ function ImagesDisplay({
   updateData,
   setLoadingImages,
 }: ItemsToDisplayProps) {
-  // const [images, setImages] = useState<ImageData[]>([]);
   const [displayEditArea, setDisplayEditArea] = useState<boolean>(false);
   const [editImageData, setEditImageData] = useState<ImageData | null>(null);
-
-  // const fetchImages = async () => {
-  //   try {
-  //     const response = await fetch("http://localhost:4000/api/images");
-  //     if (!response.ok) {
-  //       throw new Error("Failed to fetch images");
-  //     }
-
-  //     const data = await response.json();
-  //     setImages(data);
-  //   } catch (error) {
-  //     console.error("Error fetching images:", error);
-  //   } finally {
-  //     setLoadingImages(false);
-  //   }
-  // };
 
   useEffect(() => {
     setUpdateData(true);
@@ -134,6 +118,7 @@ function ImagesDisplay({
         <div className="spinner"></div>
       </div>
     );
+
   return (
     <div>
       <div className="images-list">
@@ -151,6 +136,7 @@ function ImagesDisplay({
                 >
                   {imageData.image && (
                     <section className="image">
+                      {isLoading && <div className="loading-images-animation"></div>}
                       <img
                         className="image-section"
                         src={convertToImageUrl(imageData.image)}
