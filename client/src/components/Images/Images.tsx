@@ -118,22 +118,27 @@ function ImagesDisplay({ updateData }: ItemsToDisplayProps) {
   const groupedImages: { [key: string]: ImageData[] } = {};
   images.forEach((imageData: ImageData) => {
     const date = formatDate(imageData.date);
-    if (!groupedImages[date]) {
-      groupedImages[date] = [];
+    const timestamp = new Date(date).getTime();
+    if (!groupedImages[timestamp]) {
+      groupedImages[timestamp] = [];
     }
-    groupedImages[date].push(imageData);
+    groupedImages[timestamp].push(imageData);
   });
+
+  // Sort the keys (timestamps) in descending order
+  const sortedTimestamps = Object.keys(groupedImages).sort((a, b) => +b - +a);
 
   return (
     <div>
       <div className="images-list">
-        {Object.keys(groupedImages).map((date) => (
-          <div key={date}>
+        {sortedTimestamps.map((timestamp) => (
+          <div key={timestamp}>
             <h2 className="images-date">
-              {date} <span className="images-by-date-count">{groupedImages[date].length}</span>
+              {formatDate(new Date(+timestamp).toISOString())}{" "}
+              <span className="images-by-date-count">{groupedImages[timestamp].length}</span>
             </h2>
             <div className="image-rows">
-              {groupedImages[date].map((imageData: ImageData) => (
+              {groupedImages[timestamp].map((imageData: ImageData) => (
                 <div
                   key={imageData.id}
                   className={`image-container ${loadingImages ? "image-loading" : ""}`}
