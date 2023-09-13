@@ -8,11 +8,8 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-  })
-);
+// not the best practice, but we will allow requests from any origin
+app.use(cors());
 
 app.use(express.json());
 
@@ -21,6 +18,9 @@ app.use("/", uploadImage);
 app.use("/", deleteImageById);
 app.use("/", editLabelById);
 
+app.get("/test", (req, res) => {
+  res.json("test");
+});
 const port = process.env.PORT || 4000;
 
 app.listen(port, () => {
