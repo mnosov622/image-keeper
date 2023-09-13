@@ -5,7 +5,9 @@ const { pool } = require("../connection");
 router.put("/api/images/:id/label", async (req, res) => {
   const imageId = req.params.id;
   const newLabel = req.body.label;
-
+  if (!imageId) {
+    res.json({ error: "image id is not provided" });
+  }
   try {
     const client = await pool.connect();
     const result = await client.query("SELECT * FROM images WHERE id = $1", [imageId]);

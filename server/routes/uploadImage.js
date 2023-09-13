@@ -8,8 +8,10 @@ const upload = multer({ storage: storage });
 router.post("/api/images", upload.single("image"), async (req, res) => {
   try {
     const { label, date } = req.body;
+    if (!req?.file?.buffer) {
+      res.status(500).json({ error: "image is not provided" });
+    }
     const imageBuffer = req.file.buffer;
-    console.log("image ", imageBuffer);
     const query = "INSERT INTO images (image, label, date) VALUES ($1, $2, $3) RETURNING *";
     const values = [imageBuffer, label, date];
 
