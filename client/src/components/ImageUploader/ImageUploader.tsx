@@ -50,7 +50,7 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
       formData.append("date", currentDate);
 
       try {
-        const response = await fetch("http://localhost:4000/api/images", {
+        const response = await fetch("https://image-keeper-ljhf.vercel.app/api/images", {
           method: "POST",
           body: formData,
         });

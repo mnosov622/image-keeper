@@ -39,7 +39,7 @@ const App = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/images");
+        const response = await fetch("https://image-keeper-ljhf.vercel.app/api/images");
         if (!response.ok) {
           throw new Error("Failed to fetch images");
         }

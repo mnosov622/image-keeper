@@ -56,7 +56,7 @@ function ImagesDisplay({
   const handleDeleteImage = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
     try {
-      const response = await fetch(`http://localhost:4000/api/images/${id}`, {
+      const response = await fetch(`https://image-keeper-ljhf.vercel.app/api/images/${id}`, {
         method: "DELETE",
       });
 
@@ -74,7 +74,7 @@ function ImagesDisplay({
 
   const onSave = async (label: string, id: number) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/images/${id}/label`, {
+      const response = await fetch(`https://image-keeper-ljhf.vercel.app/api/images/${id}/label`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
