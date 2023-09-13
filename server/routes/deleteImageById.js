@@ -6,7 +6,7 @@ router.delete("/api/images/:id", async (req, res) => {
   const imageId = req.params.id;
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM images.images WHERE id = $1", [imageId]);
+    const result = await client.query("SELECT * FROM images WHERE id = $1", [imageId]);
 
     if (!result || result.rows.length === 0) {
       res.status(404).json({ error: "Image not found" });

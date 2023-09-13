@@ -5,7 +5,7 @@ const router = require("express").Router();
 router.get("/api/images", async (req, res) => {
   try {
     const client = await pool.connect();
-    const result = await client.query("SELECT * FROM images.images");
+    const result = await client.query("SELECT * FROM images");
     const data = result.rows;
     client.release();
     res.json(data);

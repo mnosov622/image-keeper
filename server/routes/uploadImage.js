@@ -10,7 +10,7 @@ router.post("/api/images", upload.single("image"), async (req, res) => {
     const { label, date } = req.body;
     const imageBuffer = req.file.buffer;
     console.log("image ", imageBuffer);
-    const query = "INSERT INTO images.images (image, label, date) VALUES ($1, $2, $3) RETURNING *";
+    const query = "INSERT INTO images (image, label, date) VALUES ($1, $2, $3) RETURNING *";
     const values = [imageBuffer, label, date];
 
     const client = await pool.connect();
