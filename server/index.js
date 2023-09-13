@@ -8,8 +8,11 @@ const cors = require("cors");
 
 const app = express();
 
-// not the best practice, but we will allow requests from any origin
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://image-keeper.vercel.app"],
+  })
+);
 
 app.use(express.json());
 
