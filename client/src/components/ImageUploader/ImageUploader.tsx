@@ -4,6 +4,7 @@ import UploadIcon from "../../assets/upload.svg";
 import CloseIcon from "../../assets/tabler_x.svg";
 import CheckIcon from "../../assets/tabler_check.svg";
 import "./ImageUploader.css";
+import { backendUrl } from "../../constants/backend";
 
 interface ImageUploaderProps {
   hideUploadArea: () => void;
@@ -50,7 +51,7 @@ function ImageUploader({ hideUploadArea, fetchNewData }: ImageUploaderProps) {
       formData.append("date", currentDate);
 
       try {
-        const response = await fetch("https://image-keeper-ljhf.vercel.app/api/images", {
+        const response = await fetch(`${backendUrl}/api/images`, {
           method: "POST",
           body: formData,
         });

@@ -5,6 +5,7 @@ import "./App.css";
 import Images from "./components/Images/Images";
 import { useEffect, useCallback } from "react";
 import { ImageData } from "./interfaces/imageData";
+import { backendUrl } from "./constants/backend";
 
 const App = () => {
   const [displayUpload, setDisplayUpload] = useState<boolean>(false);
@@ -39,7 +40,7 @@ const App = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch("https://image-keeper-ljhf.vercel.app/api/images");
+        const response = await fetch(`${backendUrl}/api/images`);
         if (!response.ok) {
           throw new Error("Failed to fetch images");
         }

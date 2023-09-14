@@ -7,6 +7,7 @@ import { convertToImageUrl, formatDate } from "../../utils/helpers";
 import EditLabel from "../EditLabel/EditLabel";
 import { ImageData } from "../../interfaces/imageData";
 import ImageUploader from "../ImageUploader/ImageUploader";
+import { backendUrl } from "../../constants/backend";
 
 interface ItemsToDisplayProps {
   updateData: boolean;
@@ -56,7 +57,7 @@ function ImagesDisplay({
   const handleDeleteImage = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
     try {
-      const response = await fetch(`https://image-keeper-ljhf.vercel.app/api/images/${id}`, {
+      const response = await fetch(`${backendUrl}/api/images/${id}`, {
         method: "DELETE",
       });
 
